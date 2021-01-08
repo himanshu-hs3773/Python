@@ -56,6 +56,4 @@ def palindrome(word_to_check):
             return "It's a Palindrome"
 
 
-print(palindrome("KayAk"))
-
 
