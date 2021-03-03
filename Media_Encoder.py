@@ -1,28 +1,19 @@
-def optimalSum(fileSizes: [int]) -> int:
+from queue import PriorityQueue
 
-    fileSizes = sorted(fileSizes, reverse=True)
-    sums_arr = [0] * (len(fileSizes)+1)
-    temp_sum = float('-inf')
-    start = 0
+
+def optimalSum(fileSizes: [int]) -> int:
+    pq = PriorityQueue()
+    computation_sum = 0
 
     if not len(fileSizes):
         return -1
-    while len(fileSizes) > 1:
 
-        if temp_sum < fileSizes[-2]:
-            sums_arr[start + 1] += sums_arr[start] + fileSizes[-1]
-            fileSizes.pop()
-            temp_sum = sums_arr[start + 1]
-            start += 1
+    for i in fileSizes:
+        pq.put(i)
 
-        else:
-            sums_arr[start + 1] += fileSizes[-1] + fileSizes[-2]
-            fileSizes.pop()
-            fileSizes.pop()
-            temp_sum = sums_arr[start + 1]
-            start += 1
+    while len(pq.queue) > 1:
+        temp_s = pq.get() + pq.get()
+        computation_sum += temp_s
+        pq.put(temp_s)
 
-    if len(fileSizes) == 1:
-        sums_arr[start + 1] += fileSizes[0] + sums_arr[start]
-
-    return sum(sums_arr[2:])
+    return computation_sum
